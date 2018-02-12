@@ -55,6 +55,7 @@ evalin('base','mrGlobals');
 % Change list after testing Matlab upgrades
 earliestSupportedMatlabversion = '7.9';
 notYetSupportedMatlabversion = '9.2.1';
+
 if verLessThan('matlab', earliestSupportedMatlabversion)
     warning('Matlab version %s is less than the earliest supported Matlab version in vistasoft, %s.', version, earliestSupportedMatlabversion);
 end
