@@ -616,8 +616,8 @@ extern "C" void mexFunction(int nlhs, mxArray *plhs[],
 	}
 
   /* Input matrices */
-  const int *dt6Dims = mxGetDimensions(prhs[0]);
-  const int *seedDims = mxGetDimensions(prhs[1]);
+  const mwSize *dt6Dims = mxGetDimensions(prhs[0]);
+  const mwSize *seedDims = mxGetDimensions(prhs[1]);
   double *dt6Ptr = (double*)mxGetPr(prhs[0]);
   double *seedPtr = (double*)mxGetPr(prhs[1]);
 	
@@ -634,7 +634,7 @@ extern "C" void mexFunction(int nlhs, mxArray *plhs[],
   }
 	
   int numFibers=0;
-  int dims[3] = {dt6Dims[0],dt6Dims[1],dt6Dims[2]};
+  int dims[3] = { int(dt6Dims[0]), int(dt6Dims[1]), int(dt6Dims[2]) };
   DTIVector seedPoint;
   double *mmScale = (double*)mxGetPr(prhs[2]);
   DTIVector voxSize(3, mmScale);
