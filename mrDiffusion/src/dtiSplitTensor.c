@@ -47,14 +47,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         mexErrMsgTxt("Tensor data must be a real XxYxZx6xN array.");
     }
     /* Input matrix */
-    const int *dimsPtr = mxGetDimensions(prhs[0]);
+    const mwSize *dimsPtr = mxGetDimensions(prhs[0]);
     int        nVox    = dimsPtr[0] * dimsPtr[1] * dimsPtr[2];
     double    *dtPtr   = mxGetPr(prhs[0]);
     int        nSub;
 
     /* Output matrices */
-    int     vecDims[6];
-    int     valDims[5];
+    mwSize  vecDims[6];
+    mwSize  valDims[5];
     double *vecPtr;
     double *valPtr;
 
