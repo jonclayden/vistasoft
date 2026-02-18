@@ -591,7 +591,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
     mexPrintf("     arrays with the bootstrap stats volumes. Currently, we return the following stats:\n");
     mexPrintf("       pdd dispersion, fa stdev, md stdev\n");
     mexPrintf("\n");
-    return 0;
+    return;
   }else if(nlhs<1) {
     mexErrMsgTxt("At least one output required.");
   }else if(!mxIsDouble(prhs[0]) || mxIsComplex(prhs[0]) || (mxGetNumberOfDimensions(prhs[0])!=4 && mxGetNumberOfDimensions(prhs[0])!=2)){
