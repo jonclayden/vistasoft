@@ -44,7 +44,7 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
     nifti_image *nim;
     mxArray *fname;
     mxArray *data;
-    const int *dims;
+    const mwSize *dims;
     double *pdPtr;
     double *dimPtr;
     int nPixDim;
@@ -124,8 +124,8 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]){
         nim->datatype = DT_RGBA32;
         nim->nbyper = 4;
         nim->dim[1] = dimPtr[0];
-    }else nim->dim[1] = dims[0];
-    for(i=1; i<nim->ndim; i++) nim->dim[i+1] = dims[i];
+    }else nim->dim[1] = (int) dims[0];
+    for(i=1; i<nim->ndim; i++) nim->dim[i+1] = (int) dims[i];
     
     for(i=nim->ndim+1; i<8; i++) nim->dim[i] = 1;
     
