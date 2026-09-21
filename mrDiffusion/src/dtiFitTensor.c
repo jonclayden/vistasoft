@@ -191,13 +191,13 @@ void pinvW(double **Xinv, mwSignedIndex nVols, mxArray *mxA, double *logData, do
   mxArray *prhs[3];
   mxArray *plhs[1];
   
-  mwSignedIndex dims[2];
+  mwSize dims[2];
   mxArray *mxLogData;
   double *tmpLogData;
   mxArray *mxW;
   double *tmpW;
   
-  dims[0] = nVols;
+  dims[0] = (mwSize) nVols;
   dims[1] = 1;
   mxLogData = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
   tmpLogData = (double *)mxGetPr(mxLogData);
@@ -219,8 +219,8 @@ void pinvW(double **Xinv, mwSignedIndex nVols, mxArray *mxA, double *logData, do
 
 
 void setupBootstrapProcData(int nlhs, mxArray *plhs[], int nrhs,
-                            const mxArray *prhs[], mwSignedIndex nDims, mwSignedIndex* dims,
-                            const mwSignedIndex outDims[4], const mwSignedIndex pddDims[4],
+                            const mxArray *prhs[], mwSignedIndex nDims, const mwSize* dims,
+                            const mwSize outDims[4], const mwSize pddDims[4],
                             mwSignedIndex nVox, mwSignedIndex nVols, mwSignedIndex nPermutations,
                             bool verbose, const double* permuteMatrix,
                             const double* X, double** bsX, double*** bsXinv, 
@@ -324,18 +324,17 @@ void dtTensorFit(double dt[7]/*out*/, mwSignedIndex nVols, const double* w, cons
   for(k=0; k<7; k++) dt[k] = 0;
   for(j=0; j<nVols; j++){
     l = j*7;
-    k = 0;
     if(w==NULL)
       d = logData[j];
     else
       d = w[j]*logData[j];  
-    dt[k] = dt[k++] + d*Xinv[l  ];
-    dt[k] = dt[k++] + d*Xinv[l+1];
-    dt[k] = dt[k++] + d*Xinv[l+2];
-    dt[k] = dt[k++] + d*Xinv[l+3];
-    dt[k] = dt[k++] + d*Xinv[l+4];
-    dt[k] = dt[k++] + d*Xinv[l+5];
-    dt[k] = dt[k  ] + d*Xinv[l+6];
+    dt[0] += d*Xinv[l  ];
+    dt[1] += d*Xinv[l+1];
+    dt[2] += d*Xinv[l+2];
+    dt[3] += d*Xinv[l+3];
+    dt[4] += d*Xinv[l+4];
+    dt[5] += d*Xinv[l+5];
+    dt[6] += d*Xinv[l+6];
   }
 }
 
@@ -540,13 +539,13 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
   mwSignedIndex i, j, k, l, m, n, p, bsStride;
   double *permuteMatrix = NULL;
   mwSignedIndex nPermutations = 0;
-  mwSignedIndex *dims;
-  mwSignedIndex *maskDims;
+  const mwSize *dims;
+  const mwSize *maskDims;
   mwSignedIndex nDims, nVols, nVox;
   double *dwRaw=NULL;
   unsigned char *mask=NULL;
   double *X, *wX, *Xinv, *wXinv, *Xtmp, *bsX, **bsXinv;
-  mwSignedIndex outDims[4],pddDims[4];
+  mwSize outDims[4],pddDims[4];
   double *dt, dtTmp[7];
   double minVal, logMinVal, maxDatVal, maxErr, d, meanErr;
   double *logData, *data, *err, *w;

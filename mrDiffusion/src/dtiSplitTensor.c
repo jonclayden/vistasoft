@@ -47,14 +47,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         mexErrMsgTxt("Tensor data must be a real XxYxZx6xN array.");
     }
     /* Input matrix */
-    const int *dimsPtr = mxGetDimensions(prhs[0]);
-    int        nVox    = dimsPtr[0] * dimsPtr[1] * dimsPtr[2];
-    double    *dtPtr   = mxGetPr(prhs[0]);
-    int        nSub;
+    const mwSize *dimsPtr = mxGetDimensions(prhs[0]);
+    int           nVox    = (int) dimsPtr[0] * dimsPtr[1] * dimsPtr[2];
+    double       *dtPtr   = mxGetPr(prhs[0]);
+    mwSize        nSub;
 
     /* Output matrices */
-    int     vecDims[6];
-    int     valDims[5];
+    mwSize  vecDims[6];
+    mwSize  valDims[5];
     double *vecPtr;
     double *valPtr;
 
@@ -75,11 +75,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     }
     
     /* Create the output arrays */
-    vecDims[0] = (int)dimsPtr[0];   valDims[0] = (int)dimsPtr[0];
-    vecDims[1] = (int)dimsPtr[1];   valDims[1] = (int)dimsPtr[1];
-    vecDims[2] = (int)dimsPtr[2];   valDims[2] = (int)dimsPtr[2];
-    vecDims[3] = 3;                 valDims[3] = 3;
-    vecDims[4] = 3;                 valDims[4] = nSub;
+    vecDims[0] = dimsPtr[0];  valDims[0] = dimsPtr[0];
+    vecDims[1] = dimsPtr[1];  valDims[1] = dimsPtr[1];
+    vecDims[2] = dimsPtr[2];  valDims[2] = dimsPtr[2];
+    vecDims[3] = 3;           valDims[3] = 3;
+    vecDims[4] = 3;           valDims[4] = nSub;
     vecDims[5] = nSub;
 
     plhs[0] = mxCreateNumericArray(6, vecDims, mxDOUBLE_CLASS, mxREAL);
